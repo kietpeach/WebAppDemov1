@@ -1,0 +1,95 @@
+﻿@model IEnumerable<WebApplication1.Models.Bank>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.css" />
+
+<h1 class="text-center"> <i class="fas fa-comment-dollar text-success"></i>Bank Master</h1>
+
+<p>
+    <a onclick="showPopUp('@Url.Action("Create","Bank",null,Context.Request.Scheme)', 'New Form')" class="btn btn-success text-white"><i class="fas fa-square-plus"></i> Add</a>
+</p>
+<form>
+    <select id="name_of_user" name="users" onchange="showRecord(this.value)">
+        <option value="">Select record:</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="50">50</option>
+    </select>
+</form>
+
+    @*@await Html.PartialAsync("_ViewAll", Model)*@
+    <table id="bankDatatable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+    @*<table id="bankDatatable" class="table" width="100%" cellspacing="0">*@
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BankID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BankName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BankInfo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BankAccount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BankNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Channel)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankInfo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Channel)
+                    </td>
+                    <td>
+                        <a onclick="showPopUp('@Url.Action("Edit","Bank",new { id = item.ID},Context.Request.Scheme)', 'Edit Form')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.4/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.7/sb-1.3.4/sp-2.0.2/sl-1.4.0/sr-1.1.1/datatables.min.js"></script>
+    <script src="~/js/bankDatatable.js"></script>
+    @*<script src="~/js/customerDatatable.js"></script>*@
+}

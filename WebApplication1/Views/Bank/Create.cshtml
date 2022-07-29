@@ -1,0 +1,81 @@
+﻿@model WebApplication1.Models.Bank
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BankID" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">#</div>
+                    </div>
+                    <input asp-for="BankID" class="form-control" />
+                </div>
+                <span asp-validation-for="BankID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankName" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                    <input asp-for="BankName" class="form-control" />
+                </div>
+
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankInfo" class="control-label"></label>
+                <input asp-for="BankInfo" class="form-control" />
+                <span asp-validation-for="BankInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BankAccount" class="control-label"></label>
+                <input asp-for="BankAccount" class="form-control" />
+                <span asp-validation-for="BankAccount" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label asp-for="BankNumber" class="control-label"></label>
+                        <input asp-for="BankNumber" class="form-control" />
+                        <span asp-validation-for="BankNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <input asp-for="Status" class="form-control" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Channel" class="control-label"></label>
+                <input asp-for="Channel" class="form-control" />
+                <span asp-validation-for="Channel" class="text-danger"></span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
