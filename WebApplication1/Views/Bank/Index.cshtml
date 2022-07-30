@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 <h1 class="text-center"> <i class="fas fa-comment-dollar text-success"></i>Bank Master</h1>
 <p>
@@ -37,43 +36,43 @@
             <th>
                 @Html.DisplayNameFor(model => model.Channel)
             </th>
-            <th>Actions</th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     @*<tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankInfo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankAccount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Channel)
-                </td>
-                <td>
-                    <a onclick="showPopUp('@Url.Action("Edit","Bank",new { id = item.ID},Context.Request.Scheme)', 'Edit Form')" class="btn btn-info text-white "><i class="fas fa-pencil-alt"></i> Edit</a>
-                    <form asp-action="Delete" asp-route-id="@item.ID" class="d-inline">
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>*@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankInfo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Channel)
+                    </td>
+                    <td>
+                        <a onclick="showPopUp('@Url.Action("Edit","Bank",new { id = item.ID},Context.Request.Scheme)', 'Edit Form')" class="btn btn-info text-white "><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" class="d-inline"><input type="submit" value="Delete" class="btn btn-danger" /></form>
+                    </td>
+                </tr>
+            }
+        </tbody>*@
 </table>
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -86,7 +85,7 @@
                 "filter": true,
                 "ajax": {
                     "url": "/bank/GetFilteredItems",
-                    "type": "GET",
+                    "type": "POST",
                     "datatype": "json"
                 },
                 "columnDefs": [{
@@ -103,8 +102,43 @@
                     { "data": "bankNumber", "name": "Bank Number", "autoWidth": true },
                     { "data": "status", "name": "Status", "autoWidth": true },
                     { "data": "channel", "name": "Channel", "autoWidth": true },
+                    {
+                        'data': null,
+                        'render': function (data, type, row) {
+                            return '<button id="' + row.id + '" onclick="showPopUp1(this)" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</button>'
+                                + '<button id="' + row.id + '" onclick="deleteClick(this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>'
+                        }
+                    }
                 ]
             });
-        });</script>
+        });
+
+
+        function showPopUp1(obj) {
+            var Id = $(obj).attr('id');
+            var title = 'Edit Form';
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Edit", "Bank")',
+                data: {id : Id},
+                success: function (res) {
+                    $('#form-modal .modal-body').html(res);
+                    $('#form-modal .modal-title').html(title);
+                    $('#form-modal').modal('show');
+                }
+            })
+        }
+        //Edit button listener
+        function editClick(obj) {
+            var Id = $(obj).attr('id');
+            window.location.replace("Bank/Edit/" + Id);
+            alert("Cannot edit " + Id + " yet. Prepare BankEdit view first.");
+        }
+        //Delete button listener
+        function deleteClick(obj) {
+            var Id = $(obj).attr('id');
+            window.location.replace("Bank/Delete/" + Id);
+        }
+    </script>
 
 }

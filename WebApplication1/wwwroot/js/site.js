@@ -71,12 +71,12 @@ showPopUp = (url, title) => {
 //    return false;
 //}
 //loader
-$(function () {
-    $("#loaderbody").addClass('hide');
+//$(function () {
+//    $("#loaderbody").addClass('hide');
 
-    $(document).bind('ajaxStart', function () {
-        $("#loaderbody").removeClass('hide');
-    }).bind('ajaxStop', function () {
-        $("#loaderbody").addClass('hide');
-    });
-});
+//    $(document).bind('ajaxStart', function () {
+//        $("#loaderbody").removeClass('hide');
+//    }).bind('ajaxStop', function () {
+//        $("#loaderbody").addClass('hide');
+//    });
+//});

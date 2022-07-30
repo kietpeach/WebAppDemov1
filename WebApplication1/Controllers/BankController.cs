@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
-        // GET: Bankv1
+        // GET: Bank
         public async Task<IActionResult> Index()
         {
             return View();
@@ -30,15 +30,15 @@ namespace WebApplication1.Controllers
             try
             {
                 //System.Threading.Thread.Sleep(2000);
-                var draw = Request.Query["draw"].FirstOrDefault();
-                var start = Request.Query["start"].FirstOrDefault();
-                var length = Request.Query["length"].FirstOrDefault();
-                var sortColumn = Request.Query["columns[" + Request.Query["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-                var sortColumnDirection = Request.Query["order[0][dir]"].FirstOrDefault();
-                var searchValue = Request.Query["search[value]"].FirstOrDefault();
-                int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                int skip = start != null ? Convert.ToInt32(start) : 0;
-                int recordsTotal = 0;
+                var draw = Request.Form["draw"].FirstOrDefault(); // số lần gọi vào api
+                var start = Request.Form["start"].FirstOrDefault(); // số record bỏ qua
+                var length = Request.Form["length"].FirstOrDefault(); // số record trong 1 trang
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault(); // cột sắp xếp
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault(); // sắp xếp tăng dần hay giảm dần
+                var searchValue = Request.Form["search[value]"].FirstOrDefault(); // giá trị ô tìm kiếm
+                int pageSize = length != null ? Convert.ToInt32(length) : 0; // số record trong 1 trang
+                int skip = start != null ? Convert.ToInt32(start) : 0; // số record bỏ qua
+                int recordsTotal = 0; // tổng số record trong 1 bảng CSDL
                 var customerData = (from tempcustomer in _context.Bank select tempcustomer);
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
@@ -62,7 +62,7 @@ namespace WebApplication1.Controllers
                 throw;
             }
         }
-        // GET: Bankv1/Details/5
+        // GET: Bank/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -80,13 +80,13 @@ namespace WebApplication1.Controllers
             return View(bank);
         }
 
-        // GET: Bankv1/Create
+        // GET: Bank/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Bankv1/Create
+        // POST: Bank/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -102,7 +102,7 @@ namespace WebApplication1.Controllers
             return View(bank);
         }
 
-        // GET: Bankv1/Edit/5
+        // GET: Bank/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,7 +118,7 @@ namespace WebApplication1.Controllers
             return View(bank);
         }
 
-        // POST: Bankv1/Edit/5
+        // POST: Bank/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -153,34 +153,38 @@ namespace WebApplication1.Controllers
             return View(bank);
         }
 
-        // GET: Bankv1/Delete/5
+        // GET: Bank/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var bank = await _context.Bank
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (bank == null)
-            {
-                return NotFound();
-            }
+            //var bank = await _context.Bank
+            //    .FirstOrDefaultAsync(m => m.ID == id);
+            //if (bank == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(bank);
-        }
-
-        // POST: Bankv1/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
+            //return View(bank);
             var bank = await _context.Bank.FindAsync(id);
             _context.Bank.Remove(bank);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //// POST: Bank/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var bank = await _context.Bank.FindAsync(id);
+        //    _context.Bank.Remove(bank);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool BankExists(int id)
         {
