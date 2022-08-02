@@ -118,3 +118,6 @@ a.btn:hover {
 .hide {
     display: none;
 }
+.button-actions {
+    width: 100px;
+}

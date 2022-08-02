@@ -9,7 +9,7 @@
     <a onclick="showPopUp('@Url.Action("Create","Bank",null,Context.Request.Scheme)', 'New Form')" class="btn btn-success text-white"><i class="fas fa-square-plus"></i> Add</a>
 </p>
 
-<table id="bankDatatables" class="table table-striped table-bordered dt-responsive nowrap">
+<table id="bankDatatables" class="table table-striped table-bordered dt-responsive wrap display compact">
     <thead>
         <tr>
             <th>
@@ -105,8 +105,8 @@
                     {
                         'data': null,
                         'render': function (data, type, row) {
-                            return '<button id="' + row.id + '" onclick="showPopUp1(this)" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Edit</button>'
-                                + '<button id="' + row.id + '" onclick="deleteClick(this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>'
+                            return '<button id="' + row.id + '" onclick="showPopUp1(this)" class="btn btn-info text-white button-actions"><i class="fas fa-pencil-alt"></i> Edit</button>'
+                                + '<button id="' + row.id + '" onclick="deleteClick(this)" class="btn btn-danger button-actions"><i class="fas fa-trash-alt"></i> Delete</button>'
                         }
                     }
                 ]
@@ -136,8 +136,12 @@
         }
         //Delete button listener
         function deleteClick(obj) {
-            var Id = $(obj).attr('id');
-            window.location.replace("Bank/Delete/" + Id);
+            if(confirm('Are you sure to delete this record ?'))
+            {
+                var Id = $(obj).attr('id');
+                window.location.replace("Bank/Delete/" + Id);
+            }
+
         }
     </script>
 

@@ -30,6 +30,7 @@ namespace WebApplication1.Controllers
             try
             {
                 //System.Threading.Thread.Sleep(2000);
+                // ajax GET -> Request.Query, ajax POST -> Request.Form
                 var draw = Request.Form["draw"].FirstOrDefault(); // số lần gọi vào api
                 var start = Request.Form["start"].FirstOrDefault(); // số record bỏ qua
                 var length = Request.Form["length"].FirstOrDefault(); // số record trong 1 trang
